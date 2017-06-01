@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+
+<link rel="stylesheet" href="static/ManageSite/css/pintuer.css">
+<link rel="stylesheet" href="static/ManageSite/css/admin.css">
+<script src="static/ManageSite/js/jquery.js"></script>
+<script src="static/ManageSite/js/pintuer.js"></script>
+<script src="static\layer\layer.js"></script>
+
+
+<style type="text/css">
+.mytable {
+    table-layout: fixed;
+    width: 50% border:0px;
+    margin: 0px;
+}
+
+.mytable tr td {
+    text-overflow: ellipsis; /* for IE */
+    -moz-text-overflow: ellipsis; /* for Firefox,mozilla */
+    overflow: hidden;
+    white-space: nowrap;
+
+}
+</style>
+
+</head>
+{%  if Tlog %}
+<div class="panel admin-panel margin-top">
+<!--{'dacc': 程序异常列表, 'Tlog': 程序执行情况列表,'guests':报错列表})-->
+  <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        {%  for d in Tlog %}
+        <li> <a class="button border-main" href="/nettest.html?Domain={{d.DomainName}}">接口列表</a> </li>
+        {% endfor %}
+    </div>
+</div>
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o">
+  </span>接口用例执行情况</strong>
+  </div>
+
+<div class="panel admin-panel">
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="8%">域名</th>
+      <th width="5%">程序异常数</th>
+      <th width="5%">500报错数</th>
+      <th width="5%">通过数</th>
+    </tr>
+     {%  for d in Tlog %}
+    <tr>
+      <td>https://{{ d.DomainName }}</td>
+      <td>{{ d.Abmar_pro }}</td>
+      <td>{{ d.error }}</td>
+      <td>{{ d.through }}</td>
+    </tr>
+          {% endfor %}
+  </table>
+</div>
+
+
+{%  if dacc %}
+</div>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder">程序异常列表</strong></div>
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="5%">ID</th>
+      <th width="8%">域名</th>
+      <th width="5%">接口名称</th>
+      <th width="5%">执行时间</th>
+      <th width="5%">操作</th>
+    </tr>
+          {%  for d in dacc %}
+    <tr>
+          <td>{{ d.id }}</td>
+          <td>{{ d.DomainName }}</td>
+          <td>{{ d.MyName }}</td>
+          <td>{{ d.Time }}</td>
+           <td><div class="button-group">
+              <a class="button border-main" href="javascript:void(0)"
+                 OnClick="OnClick('/details.html?id={{ d.id }}&ll=0')">
+          <span class="icon-trash"></span> 查看接口详情</a>
+      </div></td>
+    </tr>
+          {% endfor %}
+  </table>
+</div>
+{% endif %}
+{%  endif %}
+
+  <div class="body-content">
+  </div>
+</div>
+  <div class="panel admin-panel">
+      <span class = "step-links">
+      <div class="panel-head"><strong class="icon-reorder">接口列表</strong></div>
+        <table class="table table-hover text-center mytable" >
+       {%  for d in guests %}
+        <tr>
+          <td>{{ d.id }}</td>
+        <td>{{ d.DomainName }}</td>
+        <td>{{ d.MyName }}</td>
+        <td>{{ d.ExpEcted }}</td>
+        <td>{{ d.Time }}</td>
+        <td>
+         <div class="button-group">
+            {%  if Tlog %}
+            <a class="button border-main" href="javascript:void(0)"
+               OnClick="OnClick('/details.html?id={{ d.id }}&ll=1')">
+            {% else %}
+                 <a class="button border-main" href="javascript:void(0)"
+               OnClick="OnClick('/details.html?id={{ d.id }}&ll=2')">
+             {% endif %}
+          <span class="icon-trash"></span> 查看接口详情</a>
+        </div>
+        </td>
+      </tr>
+      {% endfor %}
+      </table>
+  </div>
+ <div style = "text-align:center;">
+   <p class="page_container">
+     {% if guests.has_previous %}
+      <a class="button"
+         href="?page={{ guests.previous_page_number  }}&Domain={{ guests.0.DomainName }}"
+         inputtype="submit">上一页</a>
+     {% endif %}
+    {% for p in Tpage %}
+    {% ifequal p  guests.number %}
+    <span style="font-size:16px;" title="当前页"><b>{{p}}</b>
+    </span>
+
+    {% else %}<a href="?page={{p}}&Domain={{ guests.0.DomainName }}" title="第{{p}}页">{{p}}</a>
+    {% endifequal %}
+
+    {% endfor %}
+        {% if guests.has_next %}
+          <a class="button"
+          href="?page={{ guests.next_page_number }}&Domain={{ guests.0.DomainName }}"
+          inputtype="submit">下一页</a>
+      {% endif %}
+    <b>
+    {%if guests.paginator.num_pages%}共 {{ guests.paginator.num_pages }} 页{%endif%}
+    </b>
+    </p>
+ </div>
+<script>
+
+    function OnClick(url)
+    {
+      layer.open({
+      type: 2,
+      skin: 'layui-layer-rim', //加上边框
+      area: ['1024px', '720px'], //宽高
+      content: 'http://192.9.98.88:8000'+url
+    });
+    }
+</script>
+
+</body>
+</html>

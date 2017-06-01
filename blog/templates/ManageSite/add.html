@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="static/ManageSite/css/pintuer.css">
+<link rel="stylesheet" href="static/ManageSite/css/admin.css">
+<script src="static/ManageSite/js/jquery.js"></script>
+<script src="static/ManageSite/js/pintuer.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加测试用例</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/addl">
+      <input type="hidden" name="id"  value="{{ d.id }}" >
+      <div class="form-group">
+        <div class="label">
+          <label>用例标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{{ d.Test_Detion }}" name="Test_Detion" data-validate="required:请输入标题" />
+          <div class="tips"></div>
+        </div>
+      </div>
+        <div class="form-group">
+        <div class="label">
+          <label>用例模块：</label>
+        </div>
+        <div class="field">
+          <select name="Test_steps" class="input w50" >
+          {% if d.Op_method == null%}
+              <option value="">请选择模块</option>
+          {% else %}
+              <option value="{{ b.Test_steps }}">{{ b.module }}</option>
+          {% endif %}
+           {%  for c in bi %}
+              <option value="{{ c.Test_steps }}">{{ c.module }}</option>
+           {% endfor %}
+            </select>  <div class="tips"></div>
+        </div>
+      </div>
+       <div class="form-group">
+        <div class="label">
+          <label>操作界面：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{{ d.Test_object }}" name="Test_object"/>
+          <div class="tips"></div>
+        </div>
+        </div>
+      <if condition="$iscid eq 1">
+        <div class="form-group">
+          <div class="label">
+            <label>选择控件：</label>
+          </div>
+          <div class="field">
+            <select name="Positioning" class="input w50" >
+          {% if d.Op_method == null%}
+              <option value="{{ d.Positioning }}">请选择控件</option>
+          {% else %}
+              <option value="{{ d.Positioning }}">{{ d.Positioning }}</option>
+          {% endif %}
+          {%  for dii in di %}
+              <option value="{{ dii.Positioning }}">{{ dii.Positioning }}</option>
+          {% endfor %}
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+        <div class="form-group">
+
+          <div class="field" style="padding-top:8px;">
+
+          </div>
+        </div>
+      </if>
+      <div class="form-group">
+        <div class="label">
+          <label>控件路径：</label>
+        </div>
+        <div class="field">
+          <textarea class="input w50" name="Object_entities" value="{{ d.Object_entities }}" style="height:90px;">{{ d.Object_entities }}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+     
+      <div class="clear"></div>
+      <div class="form-group">
+        <div class="label">
+          <label>操作方法：</label>
+        </div>
+         <div class="field">
+            <select name="Op_method" class="input w50" >
+          {% if d.Op_method == null%}
+              <option value="{{ d.Op_method }}">请选择操作方式</option>
+          {% else %}
+              <option value="{{ d.Op_method }}">{{ d.Op_method }}</option>
+          {% endif %}
+           {%  for dll in fi %}
+              <option value="{{ dll.Op_method }}">{{ dll.Op_method }}</option>
+          {% endfor %}
+            </select>
+            <div class="tips"></div>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>数据内容：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="Test_data" value="{{ d.Test_data }}"/>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit">提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body></html>

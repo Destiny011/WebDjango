@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="static/Monitoring/style/Content/css/pre.css" rel="stylesheet" />
+    <link href="static/Monitoring/style/Content/css/main.css" rel="stylesheet" />
+    <link href="static\Monitoring\style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+    <script src="static/ManageSite/js/jquery.js"></script>
+    <script src="static/layer\layer.js"></script>
+    <script>
+    function OnClick(url)
+    {
+      layer.open({
+      type: 2,
+      area: ['1024px', '720px'], //宽高
+      content: 'http://192.9.98.88:8000'+url
+    });
+    }
+
+     function BtClick(url){
+               $.get(url, function(ret){
+                    window.location.reload();
+           })
+     }
+
+    </script>
+</head>
+<td>
+      <div class=".am-btn-group-justify">
+      <a class="button" href="javascript:history.go(-1)">
+        <img src="static/Monitoring/images/common/timg.jpg" class="radius-circle rotate-hover" height="50" alt=""  />
+      </a>
+           <td style="width:8% " align="center">
+        <a class="button border-main" href="javascript:void(0)"
+            OnClick="BtClick('/JArAPi/?list={{ Sys }}')"style="margin-left:10px;">
+            执行当前全部接口
+        </a>
+    </td>
+      </div>
+</td>
+<p><br></p>
+ <table class="wiki_table">
+                            <colgroup>
+                                    <col class="tbF1">
+                                    <col class="tbF2">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="6" scope="col">
+                                            <span id="{{ Sys }}">{{ Sys }} 类-接口</span>
+                                        </th>
+                                    </tr>
+                                    {% for item in Pro %}
+                                    <tr class=" wiki_table " >
+                                        <td style="text-align: center;width:15%">{{ item.0 }} </td>
+                                            <td style="width:20%">
+                                            <a href="http://apihelper.szhome.com{{ item.1 }}"  target="_Blank" title="{{ item.3 }}">{{ item.2 }}</a>
+                                            </td>
+                                            <td style="width:20%">
+                                                        {{ item.3 }}</td>
+                                            <td style="color:Green; width:4% " align="center">
+                                                  正常
+                                            </td>
+                                        <td style="width:8% " align="center">
+                                             <a class="button border-main" href="javascript:void(0)"
+                                             OnClick="BtClick('/JArAPi/')">
+                                            <span class="icon-trash">执行单独接口</span>
+                                             </a>
+                                        </td>
+
+                                       <td style="width:8% " align="center">
+                                           <div class="button-group">
+                                            <a class="button border-main" href="javascript:void(0)"
+                                                OnClick="OnClick('/JSonDisplay.html')">
+                                            <span class="icon-trash"></span>查看详情</a>
+                                           </div>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    </table>
+                                    <p><br><br><br></p>
+                                    {% if Texterror %}
+                                   <table class="wiki_table">
+                                    <tbody>
+                                    <tr >
+                                        <th colspan="6" scope="col" >
+                                            <span id="Sy">{{ Sys }}---(已删除类)</span>
+                                        </th>
+                                    </tr>
+                                    {% for item in Texterror %}
+                                        <tr class="  wiki_table" >
+                                        <td style="text-align:center;width:15%">{{ item.0 }} </td>
+                                            <td style="width:20%">
+                                            <a href="http://apihelper.szhome.com{{ item.1 }}"  style="color:Black" title="{{ item.3 }}">{{ item.2 }}</a>
+                                            </td>
+                                            <td style="width:20%">
+                                                        {{ item.3 }}</td>
+                                            <td style="color:LightSlateGray; width:4% " align="center">
+                                                  失效
+                                            </td>
+                                        <td style="width:8% " align="center">
+                                            <a class="button border-main">
+                                            <span class="icon-trash"></span>单独执行接口</a>
+                                        </td>
+                                       <td style="width:8% " align="center">
+                                            <span class="icon-trash" style="color:Black"></span>查看详情</a>
+                                        </td>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                                {% endif %}
+
+</body>
+</html>

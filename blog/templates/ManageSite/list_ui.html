@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="static/ManageSite/css/pintuer.css">
+<link rel="stylesheet" href="static/ManageSite/css/admin.css">
+<script src="static/ManageSite/js/jquery.js"></script>
+<script src="static/ManageSite/js/pintuer.js"></script>
+      <script src="static\layer\layer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+    <input type="hidden" name="Test_steps"  value="{{ data.Test_steps }}" >
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li> <a class="button border-main icon-plus-square-o" href="add.html?Project=1"> 添加iOS咚咚用例</a> </li>
+          <li> <a class="button border-main icon-plus-square-o" href="add.html?Project=2"> 添加Android咚咚用例</a> </li>
+          <li> <a class="button border-main icon-plus-square-o" href="adv.html"> 增加模块</a> </li>
+          <!--<li> <a class="button border-main icon-plus-square-o" href="ade.html"> 增加控件名称</a> </li>-->
+    </div>
+      <style type="text/css">
+        td {overflow:hidden; text-overflow:ellipsis;}
+    </style>
+
+    <table class="table table-hover text-center" style="table-layout:fixed">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">ID</th>
+        <th>用例标题</th>
+        <th>用例界面</th>
+        <th>用例控件操作</th>
+        <th>控件路径</th>
+        <th width="10%">执行方法</th>
+          <th>数据内容</th>
+          <th>预期结果</th>
+        <th width="310">操作</th>
+      </tr>
+      <volist name="list" id="vo">
+        <tr>
+
+
+{%  for d in data %}
+          <td>{{ d.id }}</td>
+          <td>{{ d.Test_Detion }}</td>
+          <td>{{ d.Test_object }}</td>
+          <td><font color="#00CC99"></font>{{ d.Positioning }}</td>
+          <td >{{ d.Object_entities }}</td>
+          <td>{{ d.Op_method }}</td>
+            <td>{{ d.Test_data }}</td>
+            {% if d.results == "1" %}
+              <td ><font size="3" color="green">成功</font></td>
+            {% else %}
+                <td ><font size="3" color="red">失败</font></td>
+            {%endif %}
+
+          <td>
+              <div class="button-group">
+                  <a class="button border-main" href="/updateUi?id={{ d.id }}&Test_steps={{ d.Test_steps}}">
+                      <span class="icon-edit"></span> 修改</a>
+                  <a class="button border-red" href="/deleteUi?id={{ d.id }}" onclick="return del(1,1,1)">
+                      <span class="icon-trash-o" ></span> 删除</a>
+                   {% if d.results == "2" %}
+                         <a class="button border-green" href="javascript:void(0)" OnClick="OnClick()">
+                        <span class="icon-trash-o" ></span> 查看图片</a>
+                        <div style="display:none" id="imgDiv">
+                            <img src="/static/Logdetails/Failure/{{ d.Test_results}}" width="360px" height="640px">
+                        </div>
+                  {%endif %}
+
+
+              </div>
+          </td>
+        </tr>
+{% endfor %}
+
+
+
+    </table>
+  </div>
+</form>
+<script type="text/javascript">
+
+
+ function OnClick()
+    {
+      layer.open({
+      type: 1,
+      skin: 'layui-layer-rim', //加上边框
+      area: ['1024px', '720px'], //宽高
+      content: $('#imgDiv')
+    });
+    }
+
+
+
+
+
+
+
+
+//搜索
+function changesearch(){	
+		
+}
+
+//单个删除
+function del(id,mid,iscid){
+	if(confirm("您确定要删除吗?")){
+		
+	}
+}
+
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+//批量排序
+function sorts(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		return false;
+	}
+}
+
+
+//批量首页显示
+function changeishome(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+//批量推荐
+function changeisvouch(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");	
+		
+		return false;
+	}
+}
+
+//批量置顶
+function changeistop(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+
+//批量移动
+function changecate(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		
+		return false;
+	}
+}
+
+//批量复制
+function changecopy(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		var i = 0;
+	    $("input[name='id[]']").each(function(){
+	  		if (this.checked==true) {
+				i++;
+			}		
+	    });
+		if(i>1){ 
+	    	alert("只能选择一条信息!");
+			$(o).find("option:first").prop("selected","selected");
+		}else{
+		
+			$("#listform").submit();		
+		}	
+	}
+	else{
+		alert("请选择要复制的内容!");
+		$(o).find("option:first").prop("selected","selected");
+		return false;
+	}
+}
+
+</script>
+</body>
+</html>

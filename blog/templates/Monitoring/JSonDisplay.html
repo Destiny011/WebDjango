@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title>接口</title>
+<link rel="stylesheet" href="static/Monitoring/style/Content/css/pintuer.css">
+<link rel="stylesheet" href="static/Monitoring/style/Content/css/admin.css">
+<script src="static/Monitoring/style/Content/js/jquery.js"></script>
+<script src="static/Monitoring/style/Content/js/pintuer.js"></script>
+  <style>
+   pre {outline: 0px solid #ccc; padding: 5px;width:80%}
+      .string { color: green; }
+      .number { color: darkorange; }
+      .boolean { color: blue; }
+      .null { color: magenta; }
+      .key { color: red; }
+  </style>
+</head>
+<body>
+<div class="" align="center">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o" a>
+  </span>接口详情</strong>
+  </div>
+
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="5%" style="text-align:left">接口名称</th>
+    </tr>
+    <tr>
+      <td>http://ddzf-webapi.test.szhome.com/api/group/changeowner</td>
+    </tr>
+  </table>
+</div>
+
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="15%" style="text-align:left" >请求参数</th>
+    </tr>
+    <tr>
+      <td>GroupId=302&NewOwnerUserId=2468&NewOwnerUserGroupType=2</td>
+    </tr>
+  </table>
+</div>
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="15%" style="text-align:left">响应参数：</th>
+    </tr>
+    <tr>
+      <td>
+        <pre id="result" style="width:780px"> </pre>
+      </td>
+    </tr>
+
+ </table>
+  </div>
+</div>
+<!--res = res.replace(/&quot;/g,"\"");-->
+<!--var res ='{"StatsCode": 200,"Message": "","Data": null,"Other": null}';-->
+<script>
+  var res ='{"StatsCode": 200,"Message": "","Data": {"AppBuild": "157","AppBuild": "157","AppBssuild": "157222","App1Build": "157","App2Build": "157","App4Build": "157","Ap6pBuild": "157","AppB7uild": "157","AppVersionCode": 157,"AppVersionName": "1.0.7","LowerestVersionCode": 157, "DownloadUrl": "https://itunes.apple.com/cn/app/id975425429","UpdateLog": "1、简化敲门的经纪人的房源展示列表，优化开门流程和聊天场景体验；、优化咚咚圈12312321321312312321312312312312312列表展示体验。","UpdateTime": "2015-08-12 00:00:00","IsBanVersion": false,"TokenName": "FA242904-C963-4689-9AE3-44EE522B6C62","TokenValue": "AD723439-6D15-420B-8AD0-23E18E2D07AF","Time": "2016-05-16 14:03:28","ImageList": [{"ImagePath": "http://dongdong.szhomeimg.com/Ad/2015/12/12251014376975280.JPG","Url": "http://bbs.szhome.com/","ShowTime": 5,"IsJump": true,"EndDate": "2016-05-17 14:03:28"}],"IsShowGender": true,"GroupFileUploadUrl": "http://groupfileupload.szhome.com/api/GroupFile/UploadGroupFile"},"Other": null}';
+
+  res = eval("(" + res + ")");
+
+console.log(res);
+  $(function(){
+    $('#result').html(syntaxHighlight(res));
+  })
+  function syntaxHighlight(json) {
+      if (typeof json != 'string') {
+          json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                  cls = 'key';
+              } else {
+                  cls = 'string';
+              }
+          } else if (/true|false/.test(match)) {
+              cls = 'boolean';
+          } else if (/null/.test(match)) {
+              cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+      });
+}
+</script>
+
+</body>
+</html>

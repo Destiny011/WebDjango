@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+ 	<link href="static/Monitoring/style/Content/css/pre.css" rel="stylesheet" />
+    <link href="static/Monitoring/style/Content/css/main.css" rel="stylesheet" />
+    <script type="text/javascript" charset="utf-8" async="" src="static/Monitoring/style/Content/js/suda.js"></script>
+        <script src="static/Monitoring/style/Content/js/jquery.js"></script>
+	<script src="static\layer\layer.js"></script>
+	<script>
+		function OnClick(url)
+    {
+        //loading层
+        var index = layer.load(1, {
+          shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+
+        location.href = url;
+    }
+	</script>
+	</link>
+<title>信息管理系统</title>
+<style>
+	.alt td{ background:black !important;}
+</style>
+</head>
+<body  class="B_wiki_main" >
+        <div style="margin:10px"  align="center">
+				{% ifequal URL 'http://apihelper.szhome.com/Home/API/BBS' %}
+  					<h1 style="font-size:21px;">家在深圳接口性能监控系统</h1>
+				{% endifequal %}
+				{% ifequal URL 'http://apihelper.szhome.com/Home/API/SZhomeDuang' %}
+  					<h1 style="font-size:21px;">咚咚找房接口性能监控系统</h1>
+				{% endifequal %}
+				{% ifequal URL 'http://apihelper.szhome.com/Home/API/DongdongBroker' %}
+  					<h1 style="font-size:21px;">咚咚抢客接口性能监控系统</h1>
+				{% endifequal %}
+				{% ifequal URL 'http://apihelper.szhome.com/Home/API/SZHomeWawo' %}
+  					<h1 style="font-size:21px;">  哇窝   接口性能监控系统</h1>
+				{% endifequal %}
+ 			</div>
+
+			<tbody>
+					 <table class="wiki_table" align="center">
+              			<tr>
+							<th>执行接口数</th>
+							<th>成功数</th>
+							<th>程序异常数</th>
+							<th>结构错误数</th>
+							<th>接口执行时间</th>
+							<th>详情</th>
+						</tr>
+							<tr>
+								<td>500</td>
+								<td>500</td>
+								<td>30</td>
+								<td>30</td>
+								<td>2017.05.23 11:00:00</td>
+								 <td>
+									 <div class="button-group">
+            						<a class="button border-main" href="/Perport.html" style="Color:Blue">
+										程序异常报告 </a>
+      							</div>
+        						</td>
+							</tr>
+					</table>
+			</tbody>
+
+        <div lang="zh-cn" dir="ltr" class="mw-content-ltr" style="width:65%;padding-left:350px;margin:10px">
+            <div class="wiki_kit">
+                <div class="wiki_taglist">
+					<!--style="width:88%;"-->
+                    <ul class="clearfix">
+						{% for item in listClass %}
+						<!-- 后续设置色值 style="Color:Blue" -->
+                         <li><a href="house_edit.html?Sy={{ item.0 }}" title="{{ item.1 }}">{{ item.1 }} </a></li>
+                         {% endfor %}
+                    </ul>
+                </div>
+			</div>
+			</div>
+	 </body>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="static/ManageSite/css/pintuer.css">
+<link rel="stylesheet" href="static/ManageSite/css/admin.css">
+<script src="static/ManageSite/js/jquery.js"></script>
+<script src="static/ManageSite/js/pintuer.js"></script>
+  <style>
+   pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+      .string { color: green; }
+      .number { color: darkorange; }
+      .boolean { color: blue; }
+      .null { color: magenta; }
+      .key { color: red; }
+  </style>
+</head>
+<body>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o">
+  </span>单个接口详情</strong>
+  </div>
+
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="5%" style="text-align:left">接口名称</th>
+    </tr>
+    <tr>
+      <td>https://{{ person.DomainName }}/{{ person.MyName }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="15%" style="text-align:left" >请求参数</th>
+    </tr>
+    <tr>
+      <td>{{ person.Myurl }}</td>
+    </tr>
+  </table>
+</div>
+  <div class="body-content">
+  </div>
+</div>
+<div class="panel admin-panel">
+  <table class="table table-hover">
+    <tr>
+      <th width="5%" style="text-align:left">响应参数：</th>
+    </tr>
+    <tr>
+      <td>
+        <pre id="result">
+        </pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  var res = "{{ person.ExpEcted }}";
+  res = res.replace(/&quot;/g,"\"");
+  res = eval("(" + res + ")");
+
+console.log(res);
+  $(function(){
+    $('#result').html(syntaxHighlight(res));
+  })
+  function syntaxHighlight(json) {
+      if (typeof json != 'string') {
+          json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                  cls = 'key';
+              } else {
+                  cls = 'string';
+              }
+          } else if (/true|false/.test(match)) {
+              cls = 'boolean';
+          } else if (/null/.test(match)) {
+              cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+      });
+}
+</script>
+
+</body>
+</html>
